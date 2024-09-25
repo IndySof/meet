@@ -11,7 +11,7 @@ import getHash from "@/lib/hash"
 import type { DateTimeIntervalWithTimezone } from "@/lib/types"
 
 // Define the rate limiter
-const rateLimitLRU = new LRUCache({
+const rateLimitLRU = new LRUCache<string, number>({
   max: 500,
   ttl: 60_000, // 60_000 milliseconds = 1 minute
 })
@@ -46,7 +46,6 @@ export default async function handler(
   }
 
   // Apply rate limiting using the client's IP address
-
   const limitReached = checkRateLimit()
 
   if (limitReached) {
@@ -116,13 +115,12 @@ export default async function handler(
       req.socket.remoteAddress ??
       "127.0.0.1"
 
-    const tokenCount = (rateLimitLRU.get(ip) as number[]) || [0]
-    if (tokenCount[0] === 0) {
-      rateLimitLRU.set(ip, tokenCount)
-    }
-    tokenCount[0] += 1
-    const currentUsage = tokenCount[0]
-    return currentUsage >= REQUESTS_PER_IP_PER_MINUTE_LIMIT
+    let currentUsage = rateLimitLRU.get(ip) || 0
+
+    currentUsage += 1
+    rateLimitLRU.set(ip, currentUsage)
+
+    return currentUsage > REQUESTS_PER_IP_PER_MINUTE_LIMIT
   }
 }
 
@@ -152,10 +150,10 @@ export default async function handler(
  * of the date-time interval.
  */
 function intervalToHumanString({
-  start,
-  end,
-  timeZone,
-}: DateTimeIntervalWithTimezone): string {
+                                 start,
+                                 end,
+                                 timeZone,
+                               }: DateTimeIntervalWithTimezone): string {
   return `${formatLocalDate(start, {
     month: "long",
     day: "numeric",
