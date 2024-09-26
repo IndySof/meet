@@ -11,7 +11,7 @@ import { formatLocalDate, formatLocalTime } from "@/lib/availability/helpers"
 
 const locations = [
   {
-    name: "Phone",
+    name: "Téléphone",
     value: "phone",
   },
   {
@@ -52,7 +52,7 @@ export default function BookingForm() {
         <Dialog.Title
           as="h3"
           className="text-base font-semibold leading-6 text-gray-900">
-          Request appointment
+          Demander un rendez-vous
         </Dialog.Title>
 
         <input
@@ -83,7 +83,7 @@ export default function BookingForm() {
               <label
                 htmlFor="name"
                 className="block text-xs font-medium text-gray-900">
-                Name
+                Nom
               </label>
               <input
                 aria-label="Name"
@@ -102,7 +102,7 @@ export default function BookingForm() {
               <label
                 htmlFor="email"
                 className="block text-xs font-medium text-gray-900">
-                Email Address
+                Adresse e-mail
               </label>
               <input
                 aria-label="Email"
@@ -117,7 +117,7 @@ export default function BookingForm() {
             </div>
           </div>
           <div>
-            <p className="text-sm font-medium">How would you like to meet?</p>
+            <p className="text-sm font-medium">Comment souhaitez-vous rencontrer ?</p>
             <fieldset className="mt-2">
               <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-4">
                 {locations.map((location) => (
@@ -144,7 +144,7 @@ export default function BookingForm() {
         </div>
         {modal === "error" && (
           <div className="bg-red-50 text-red-600">
-            There was an error submitting your request.
+            Une erreur est survenue lors de la soumission de votre demande.
           </div>
         )}
         <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
@@ -154,10 +154,10 @@ export default function BookingForm() {
             className="inline-flex w-full justify-center rounded-md bg-red-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 sm:ml-3 sm:w-auto disabled:opacity-50">
             {modal === "busy" ? (
               <>
-                Submitting ... <Spinner className="ml-2" />
+                Soumission en cours ... <Spinner className="ml-2" />
               </>
             ) : (
-              <>Submit</>
+              <>Soumettre</>
             )}
           </button>
           <button
@@ -166,7 +166,7 @@ export default function BookingForm() {
             onClick={() => {
               dispatch({ type: "SET_MODAL", payload: "closed" })
             }}>
-            Cancel
+            Annuler
           </button>
         </div>
       </form>
@@ -176,9 +176,9 @@ export default function BookingForm() {
 
 /**
  *
- * Handles form submissions by intercepting the native event,
- * passing params to the `/book` endpoint, and redirecting
- * upon success (or showing a failure message).
+ * Gère les soumissions de formulaires en interceptant l'événement natif,
+ * en passant les paramètres à l'endpoint `/book`, et en redirigeant
+ * en cas de succès (ou en affichant un message d'échec).
  *
  */
 function handleSubmit(
