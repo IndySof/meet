@@ -85,7 +85,7 @@ function Page({
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const schema = z.object({
     duration: z
-      .enum([...(ALLOWED_DURATIONS.map(String) as [string, ...string[]])])
+      .enum([...(ALLOWED_DURATIONS.map((d) => String(d.value)) as [string, ...string[]])])
       .optional()
       .default(String(DEFAULT_DURATION))
       .transform(Number),

@@ -10,39 +10,29 @@ export default function DurationPicker() {
   } = useProvider()
 
   return (
-    <div>
+    <div className="w-1/2">
       <label
         htmlFor="duration"
         className="block text-sm font-medium leading-0 text-gray-900">
-        Duration
+        Prestation
       </label>
-      <div className="isolate inline-flex rounded-md shadow-sm mt-1">
-        {ALLOWED_DURATIONS.map((theDuration, i) => (
-          <button
-            key={theDuration}
-            onClick={() => {
-              dispatch({
-                type: "SET_DURATION",
-                payload: theDuration,
-              })
-            }}
-            type="button"
-            className={clsx(
-              "relative inline-flex items-center px-3 py-2 text-sm font-semibold ring-1 ring-inset focus:z-10 outline-accent-600",
-              {
-                "rounded-l-md": i === 0,
-                "rounded-r-md": i === ALLOWED_DURATIONS.length - 1,
-                "-ml-px": i > 0,
-                "bg-white text-gray-900 ring-gray-300 hover:bg-gray-200":
-                  theDuration !== duration,
-                "bg-accent-500 text-white ring-accent-600 shadow-inner shadow-accent-900":
-                  theDuration === duration,
-              }
-            )}>
-            {theDuration}
-          </button>
+      <select
+        value={duration}
+        id="duration"
+        name="duration"
+        className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-accent-600 sm:text-sm sm:leading-6 overflow-x-clip"
+        onChange={(e) => {
+          dispatch({
+            type: "SET_DURATION",
+            payload: Number(e.currentTarget.value),
+          })
+        }}>
+        {ALLOWED_DURATIONS.map((theDuration) => (
+          <option key={theDuration.key} value={theDuration.value}>
+            {theDuration.key}
+          </option>
         ))}
-      </div>
+      </select>
     </div>
   )
 }

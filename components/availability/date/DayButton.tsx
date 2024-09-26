@@ -57,7 +57,7 @@ export default function DayButton({
       disabled={isDisabled}
       aria-pressed={isSelected}
       aria-disabled={isDisabled}
-      aria-label={`${isToday ? "Today" : ""} ${
+      aria-label={`${isToday ? "Aujourd'hui" : ""} ${
         isDisabled ? "Unavailable" : "Available"
       } date ${date.toString()} in calendar`}
       onClick={() => {
@@ -73,7 +73,7 @@ export default function DayButton({
             "font-semibold text-[0.55rem] leading-0 h-3 items-center flex",
             { "text-white": isSelected, "text-accent-700": !isSelected }
           )}>
-          {isToday && "TODAY"}
+          {isToday && "Aujourd'hui"}
         </p>
         <time className="text-base flex leading-0 items-center">
           {date.getDay()}

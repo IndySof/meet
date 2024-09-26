@@ -13,7 +13,7 @@ export default function Calendar({
   offers: Record<string, DateTimeInterval[]>
   maximumAvailability: number
 }) {
-  const weekdays = ["Su", "M", "Tu", "W", "Th", "F", "Sa"]
+  const weekdays = ["D", "L", "Ma", "Me", "J", "V", "S"]
   const {
     state: { start, end, timeZone },
   } = useProvider()

@@ -1,6 +1,13 @@
 import type { AvailabilitySlotsMap } from "./lib/types"
 
-export const ALLOWED_DURATIONS = [15, 30, 60]
+export const ALLOWED_DURATIONS = [
+  { key: "Vaccination", value: 5 },
+  { key: "Prise de sang", value: 10 },
+  { key: "Test de laboratoire", value: 15 },
+  { key: "Examen médical", value: 20 },
+  { key: "Suivi post-opératoire", value: 25 },
+  { key: "Échographie", value: 30 }
+]
 
 export const DEFAULT_DURATION = 30
 
