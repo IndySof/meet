@@ -31,10 +31,22 @@ export default function getPotentialTimes({
 
     const slotsForDay = availabilitySlots[dayOfWeek] ?? []
 
-    for (const slot of slotsForDay) {
+    for (const slot of slotsForDay)
+    {
+
       const slotStart = set(day, {
         hours: slot.start.hour,
         minutes: slot.start.minute,
+      })
+
+      const slotBreakStart = set(day, {
+        hours: slot.breakStart.hour,
+        minutes: slot.breakStart.minute,
+      })
+
+      const slotBreakEnd = set(day, {
+        hours: slot.breakEnd.hour,
+        minutes: slot.breakEnd.minute,
       })
 
       const slotEnd = set(day, {
@@ -44,17 +56,22 @@ export default function getPotentialTimes({
 
       let currentIntervalStart = slotStart
 
-      while (
-        currentIntervalStart < slotEnd &&
-        addMinutes(currentIntervalStart, duration) <= slotEnd
-      ) {
+      while ( currentIntervalStart < slotEnd && addMinutes(currentIntervalStart, duration) <= slotEnd )
+      {
         const currentIntervalEnd = addMinutes(currentIntervalStart, duration)
 
-        intervals.push({
-          start: currentIntervalStart,
-          end: currentIntervalEnd,
-        })
-
+        if (currentIntervalStart >= slotBreakStart && currentIntervalEnd <= slotBreakEnd)
+        {
+          // Move the currentIntervalStart to the end
+          currentIntervalStart = slotBreakEnd;
+        }
+        else
+        {
+          intervals.push({
+            start: currentIntervalStart,
+            end: currentIntervalEnd,
+          })
+        }
         currentIntervalStart = currentIntervalEnd
       }
     }

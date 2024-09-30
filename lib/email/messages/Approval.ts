@@ -16,28 +16,29 @@ export default function ApprovalEmail({
   approveUrl: string
   timeZone: string
 }) {
-  const SUBJECT = `${name} wants to meet with you`
+
+  const SUBJECT = `${name} souhaite prendre rendez-vous avec vous`
 
   const declineUrl = `mailto:${encodeURI(email)}?subject=${encodeURIComponent(
     `Re: Your meeting request`
   )}&body=${encodeURIComponent(
-    `Hi there,
+    `Bonjour,
 
-I just checked my calendar and it looks like ${dateSummary} won't work.
+Je viens de vérifier mon calendrier et il semble que la date ${dateSummary} ne convient pas.
 
-Would you be able to meet at a different time?`
+Serait-il possible de fixer un autre rendez-vous ?`
   )}`
 
   let body = `<div dir="ltr">`
   body += [
-    `<b>${name}</b> has requested a meeting on <b>${dateSummary}</b>, via <b>${location}</b>`,
+    `<b>${name}</b> a demandé un rendez-vous le <b>${dateSummary}</b>, via <b>${location}</b>`,
     `<br>`,
-    `Their local timezone is ${timeZone}`,
+    `Le fuseau horaire local est  ${timeZone}`,
     `<br>`,
     `<br>`,
-    `<b><a href=${approveUrl}>Accept the meeting</a></b>`,
+    `<b><a href=${approveUrl}>Accepter le rendez-vous</a></b>`,
     `<br>`,
-    `<b><a href=${declineUrl}>Decline the meeting</a></b>`,
+    `<b><a href=${declineUrl}>Refuser le rendez-vous</a></b>`,
   ]
     .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
     .join("")

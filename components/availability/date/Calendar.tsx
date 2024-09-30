@@ -13,7 +13,7 @@ export default function Calendar({
   offers: Record<string, DateTimeInterval[]>
   maximumAvailability: number
 }) {
-  const weekdays = ["D", "L", "Ma", "Me", "J", "V", "S"]
+  const weekdays = [ "L", "Ma", "Me", "J", "V", "S", "D"]
   const {
     state: { start, end, timeZone },
   } = useProvider()
@@ -28,10 +28,10 @@ export default function Calendar({
   const now = Day.todayWithOffset(0)
 
   const days = eachDayOfInterval({
-    start: startOfWeek(startDate),
+    start: startOfWeek(startDate, { weekStartsOn: 2 }),
     // add two extra days in case we end on a weekend to avoid
     // an incomplete row.
-    end: endOfWeek(addDays(endDate, 2)),
+    end: endOfWeek(addDays(endDate, 2), { weekStartsOn:2 }),
   }).map((day) => Day.dayFromDate(day))
   
   // Remove cases where the first week is empty.
@@ -61,7 +61,7 @@ export default function Calendar({
           className="justify-center text-slate-500 flex"
           role="columnheader"
           aria-label={weekday}>
-          {weekday.charAt(0)}
+          {weekday}
         </div>
       ))}
       {days.map((day) => {

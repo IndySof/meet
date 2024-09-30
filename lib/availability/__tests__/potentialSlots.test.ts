@@ -12,7 +12,7 @@ describe("getPotentialTimes", () => {
   const availabilitySlots: AvailabilitySlotsMap = {
     1: [
       // 3 hours
-      { start: { hour: 9, minute: 0 }, end: { hour: 12, minute: 0 } },
+      { start: { hour: 9, minute: 30 }, end: { hour: 12, minute: 30 } },
       // 4 hours
       { start: { hour: 13, minute: 0 }, end: { hour: 17, minute: 0 } },
     ],
@@ -32,8 +32,8 @@ describe("getPotentialTimes", () => {
 
     expect(result).toHaveLength(16)
 
-    expect(result[0].start).toStrictEqual(new Date("2023-03-13T09:00:00"))
-    expect(result[0].end).toStrictEqual(new Date("2023-03-13T10:00:00"))
+    expect(result[0].start).toStrictEqual(new Date("2023-03-13T09:30:00"))
+    expect(result[0].end).toStrictEqual(new Date("2023-03-13T10:30:00"))
     expect(result[15].start).toStrictEqual(new Date("2023-03-17T17:00:00"))
     expect(result[15].end).toStrictEqual(new Date("2023-03-17T18:00:00"))
   })

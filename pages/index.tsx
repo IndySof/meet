@@ -100,7 +100,7 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
 
   // Offer two weeks of availability.
   const start = Day.todayWithOffset(0)
-  const end = Day.todayWithOffset(14)
+  const end = Day.todayWithOffset(21)
 
   const busy = await getBusyTimes(
     getDateRangeInterval({

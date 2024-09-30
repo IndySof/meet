@@ -10,17 +10,22 @@ export default function TimezonePicker() {
     dispatch,
   } = useProvider();
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Get the selected timezone value
-  const selectedTimeZoneValue = groupLookupMap.get(timeZone);
-
   // Convert timeZoneMap to array for easier handling
   const timeZones = [...timeZoneMap].map(([display, { value }]) => ({
     display,
     value,
   }));
+
+  // Get the selected timezone value
+  const selectedTimeZoneValue = groupLookupMap.get(timeZone);
+
+  // Find the display corresponding to the selectedTimeZoneValue
+  const selectedTimeZoneDisplay = timeZones.find(
+    (tz) => tz.value === selectedTimeZoneValue
+  )?.display || "";
+
+  const [searchTerm, setSearchTerm] = useState(selectedTimeZoneDisplay);
+  const [isOpen, setIsOpen] = useState(false);
 
   // Filter time zones based on search term
   const filteredTimeZones = timeZones.filter((tz) =>
@@ -28,7 +33,7 @@ export default function TimezonePicker() {
   );
 
   return (
-    <div className="w-1/2">
+    <div className="w-1/2 invisible">
       <label
         htmlFor="location"
         className="block text-sm font-medium leading-0 text-gray-900"
@@ -49,7 +54,7 @@ export default function TimezonePicker() {
 
       {/* Dropdown with filtered options */}
       {isOpen && (
-        <ul className="absolute z-10 mt-1 w-full rounded-md border border-gray-300 bg-white shadow-lg">
+        <ul className="absolute z-10 mt-1 rounded-md border border-gray-300 bg-white shadow-lg">
           {filteredTimeZones.length > 0 ? (
             filteredTimeZones.map((tz) => (
               <li

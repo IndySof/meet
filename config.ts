@@ -13,16 +13,26 @@ export const DEFAULT_DURATION = 30
 
 export const CALENDARS_TO_CHECK = ["primary"]
 export const SLOT_PADDING = 0
-export const OWNER_TIMEZONE = "America/Los_Angeles"
+export const OWNER_TIMEZONE = "Europe/Paris"
 export const LEAD_TIME = 0
 
 const DEFAULT_WORKDAY = [
   {
     start: {
       hour: 9,
+      minute:30,
+    },
+    breakStart: {
+        hour: 12,
+        minute:30,
+    },
+    breakEnd: {
+      hour: 14,
+      minute: 0,
     },
     end: {
-      hour: 22,
+      hour: 19,
+      minute: 30,
     },
   },
 ]

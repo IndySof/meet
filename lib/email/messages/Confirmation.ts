@@ -1,7 +1,7 @@
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
 
-const SUBJECT = `Your meeting request`
+const SUBJECT = `Votre demande de rendez-vous`
 
 export default function ConfirmationEmail({
   dateSummary,
@@ -10,12 +10,12 @@ export default function ConfirmationEmail({
 }) {
   let body = `<div dir="ltr">`
   body += [
-    `Hi there`,
+    `Bonjour`,
     `<br>`,
-    `Just confirming that your request for <b>${dateSummary}</b> has been received. 
-I'll review it as soon as I can and get back to you with a confirmation.`,
+    `Nous confirmons la réception de votre demande pour le <b>${dateSummary}</b>. 
+Nous allons l'examiner dès que possible et nous vous contacterons pour confirmer la disponibilité.`,
     `<br>`,
-    `Thanks!`,
+    `Merci !`,
   ]
     .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
     .join("")
