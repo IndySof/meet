@@ -29,6 +29,8 @@ const AppointmentRequestSchema = z.object({
   }),
   timeZone: z.string(),
   location: z.enum(["meet", "phone"]),
+  doctor: z.string(),
+  option: z.string(),
   duration: z
     .string()
     .refine((value) => !Number.isNaN(Number.parseInt(value)), {
@@ -62,6 +64,9 @@ export default async function handler(
   }
   const { data } = validationResult
 
+  const doctor = data.doctor
+  const option = data.option
+
   const start = new Date(data.start)
   const end = new Date(data.end)
 
@@ -80,6 +85,8 @@ export default async function handler(
       end,
       timeZone: OWNER_TIMEZONE,
     }),
+    doctor,
+    option
   })
   await sendMail({
     to: process.env.OWNER_EMAIL ?? "",

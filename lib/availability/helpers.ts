@@ -30,6 +30,24 @@ export function mapDatesToStrings(slots: DateTimeInterval[]): StringInterval[] {
   }))
 }
 
+
+// export function mapStringsToDates(slots: { start: string; end: string; doctor: string }[]): DateTimeInterval[] {
+//   return slots.map(({ start, end, doctor }) => ({
+//     start: new Date(start),
+//     end: new Date(end),
+//     doctor
+//   }))
+// }
+//
+// export function mapDatesToStrings(slots: { start: Date; end: Date; doctor: string }[]): StringInterval[] {
+//   return slots.map(({ start, end, doctor }) => ({
+//     start: start.toISOString(),
+//     end: end.toISOString(),
+//     doctor
+//   }));
+// }
+
+
 /**
  * Convinience function to apply common formatting to a date.
  * 

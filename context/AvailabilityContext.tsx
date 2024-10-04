@@ -1,7 +1,7 @@
 import type { Dispatch, FC } from "react"
 import { useReducer, useContext, createContext } from "react"
 
-import { ALLOWED_DURATIONS, DEFAULT_DURATION } from "@/config"
+import { ALLOWED_DURATIONS, DEFAULT_DURATION, DOCTORS } from "@/config"
 import Day from "@/lib/day"
 import type { DateTimeInterval } from "@/lib/types"
 import type { PageProps } from "@/pages"
@@ -25,6 +25,8 @@ export type StateType = {
   modal: ModalStatus
   /** The time slot the user selected (if made). */
   selectedTime?: DateTimeInterval
+  optionId:number
+  doctor:string
 }
 
 export type ActionType =
@@ -53,6 +55,14 @@ export type ActionType =
       /** Set the selected time interval. */
       payload: DateTimeInterval
     }
+  | {
+    type: "SET_OPTION_ID"
+    payload: number
+  }
+  | {
+    type: "SET_DOCTOR"
+    payload: string
+  }
 
 const StateSetContext = createContext<Dispatch<ActionType> | undefined>(
   undefined
@@ -63,6 +73,8 @@ const StateContext = createContext<StateType>({
   end: Day.todayWithOffset(14),
   timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   modal: "closed",
+  optionId: 0,
+  doctor: DOCTORS[0].user
 })
 
 /**
@@ -108,7 +120,7 @@ export function withProvider<T extends PageProps>(Component: FC<T>): FC<T> {
       end: props.end,
       selectedDate: props.selectedDate,
       timeZone: props.timeZone,
-      duration: props.duration,
+      duration: props.duration
     }
 
     return (
@@ -142,6 +154,8 @@ function getInitialState(values: Omit<PageProps, "busy">): StateType {
         ? values.duration
         : DEFAULT_DURATION,
     modal: "closed",
+    optionId:0,
+    doctor: DOCTORS[0].user
   }
 }
 
@@ -196,6 +210,14 @@ function reducerFunction(state: StateType, action: ActionType): StateType {
       newState.modal = "open"
       break
     }
+    case "SET_OPTION_ID": {
+      newState = { ...state, optionId: action.payload }
+      break
+    }
+    case "SET_DOCTOR": {
+      newState = { ...state, doctor: action.payload }
+      break
+    }
     default: {
       newState = state
     }
@@ -205,6 +227,8 @@ function reducerFunction(state: StateType, action: ActionType): StateType {
   // timeZone and selectedDate (if set).
   const newUrl = new URLSearchParams({
     duration: newState.duration.toString(),
+    optionId:newState.optionId.toString(),
+    doctor: newState.doctor.toString(),
     timeZone: newState.timeZone,
     ...(newState.selectedDate && {
       selectedDate: newState.selectedDate.toString(),

@@ -33,7 +33,7 @@ export default function TimezonePicker() {
   );
 
   return (
-    <div className="w-1/2 invisible">
+    <div className="w-1/2">
       <label
         htmlFor="location"
         className="block text-sm font-medium leading-0 text-gray-900"

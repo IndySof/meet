@@ -1,4 +1,5 @@
 import { Dialog } from "@headlessui/react"
+// @ts-ignore
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context"
 import { useRouter } from "next/navigation"
 import type { Dispatch, FormEvent } from "react"
@@ -8,6 +9,7 @@ import Spinner from "../Spinner"
 import type { ActionType } from "@/context/AvailabilityContext"
 import { useProvider } from "@/context/AvailabilityContext"
 import { formatLocalDate, formatLocalTime } from "@/lib/availability/helpers"
+import { ALLOWED_DURATIONS, DOCTORS } from "@/config"
 
 const locations = [
   {
@@ -22,7 +24,7 @@ const locations = [
 
 export default function BookingForm() {
   const {
-    state: { modal, selectedTime, timeZone, duration },
+    state: { modal, selectedTime, timeZone, duration, doctor, optionId },
     dispatch,
   } = useProvider()
   const router = useRouter()
@@ -37,6 +39,14 @@ export default function BookingForm() {
     timeZone,
     timeZoneName: "shortGeneric",
   })
+
+  const optionSelected = ALLOWED_DURATIONS.find(
+    (option) => option.id === optionId
+  )
+
+  const doctorSelected = (doctor === DOCTORS[0].user)
+    ? DOCTORS.find(theDoctor => theDoctor.option.includes(optionId))?.user
+    : doctor;
 
   return (
     <Modal
@@ -54,19 +64,23 @@ export default function BookingForm() {
           className="text-base font-semibold leading-6 text-gray-900">
           Demander un rendez-vous
         </Dialog.Title>
+        <hr className="border-gray-500 mb-3 mt-3"/>
 
-        <input
-          type="hidden"
-          name="start"
-          value={selectedTime.start.toISOString()}
-        />
-        <input
-          type="hidden"
-          name="end"
-          value={selectedTime.end.toISOString()}
-        />
+        <p className="mt-2 text-sm font-medium text-gray-800">
+          <span className="block">
+            <strong>Prestation :</strong> {optionSelected?.option}
+          </span>
+          <span className="block">
+            <strong>Docteur :</strong> {doctorSelected}
+          </span>
+        </p>
+
+        <input type="hidden" name="start" value={selectedTime.start.toISOString()} />
+        <input type="hidden" name="end" value={selectedTime.end.toISOString()} />
         <input type="hidden" name="duration" value={duration} />
         <input type="hidden" name="timeZone" value={timeZone} />
+        <input type="hidden" name="doctor" value={doctorSelected} />
+        <input type="hidden" name="option" value={optionSelected?.option} />
 
         <div className="border-l-4 border-l-accent-200 bg-accent-50/30 p-3 mt-3 mb-4 rounded-md">
           <p className="text-sm md:text-base font-semibold text-accent-800">
@@ -79,7 +93,8 @@ export default function BookingForm() {
 
         <div className="flex flex-col space-y-4">
           <div className="isolate -space-y-px rounded-md shadow-sm">
-            <div className="relative rounded-md rounded-b-none px-3 pt-2.5 pb-1.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2 focus-within:ring-accent-600">
+            <div
+              className="relative rounded-md rounded-b-none px-3 pt-2.5 pb-1.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2 focus-within:ring-accent-600">
               <label
                 htmlFor="name"
                 className="block text-xs font-medium text-gray-900">
@@ -95,10 +110,11 @@ export default function BookingForm() {
                 name="name"
                 id="name"
                 className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder="Jane Smith"
+                placeholder="John Doe"
               />
             </div>
-            <div className="relative rounded-md rounded-t-none px-3 pt-2.5 pb-1.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2 focus-within:ring-accent-600">
+            <div
+              className="relative rounded-md rounded-t-none px-3 pt-2.5 pb-1.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2 focus-within:ring-accent-600">
               <label
                 htmlFor="email"
                 className="block text-xs font-medium text-gray-900">
@@ -112,12 +128,14 @@ export default function BookingForm() {
                 name="email"
                 id="email"
                 className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder="jsmith@gmail.com"
+                placeholder="john-doe@gmail.com"
               />
             </div>
           </div>
           <div>
-            <p className="text-sm font-medium">Comment souhaitez-vous rencontrer ?</p>
+            <p className="text-sm font-medium">
+              Comment souhaitez-vous rencontrer ?
+            </p>
             <fieldset className="mt-2">
               <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-4">
                 {locations.map((location) => (

@@ -43,6 +43,18 @@ export type DateTimeInterval = {
   end: Date
 }
 
+export type DateTimeIntervalString = {
+  /** Starting date */
+  start: Date
+  /** Ending date */
+  end: Date
+  doctor:string
+}
+
+export type DoctorString = {
+  doctor:string
+}
+
 /**
  * Represents an interval of time between start and end
  * with a timezone.
@@ -74,4 +86,6 @@ export type AppointmentProps = {
   name: string
   /** Duration of the meeting in minutes  */
   duration: string
+  doctor: string
+  option:string
 }

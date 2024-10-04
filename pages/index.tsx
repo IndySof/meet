@@ -1,9 +1,9 @@
 import type {
   GetServerSidePropsContext,
-  InferGetServerSidePropsType,
+  InferGetServerSidePropsType
 } from "next"
 import { useEffect } from "react"
-import { z } from "zod"
+import { date, z } from "zod"
 
 import Template from "@/components/Template"
 import AvailabilityPicker from "@/components/availability/AvailabilityPicker"
@@ -17,10 +17,11 @@ import getAvailability from "@/lib/availability/getAvailability"
 import getBusyTimes from "@/lib/availability/getBusyTimes"
 import getPotentialTimes from "@/lib/availability/getPotentialTimes"
 import {
-  getDateRangeInterval,
-  mapDatesToStrings,
   mapStringsToDates,
+  mapDatesToStrings,
+  getDateRangeInterval,
 } from "@/lib/availability/helpers"
+import type { DateTimeIntervalString } from "@/lib/types"
 import Day from "@/lib/day"
 import localeDayString from "@/lib/locale"
 
@@ -29,7 +30,8 @@ export type PageProps = InferGetServerSidePropsType<typeof getServerSideProps>
 function Page({
   start,
   end,
-  busy,
+  busyTime,
+  busyDoctor,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
     state: { duration, selectedDate },
@@ -46,10 +48,12 @@ function Page({
     availabilitySlots: OWNER_AVAILABILITY,
   })
 
-  const offers = getAvailability({
-    busy: mapStringsToDates(busy),
+  const offers   = getAvailability({
+    busyTime:  mapStringsToDates(busyTime),
+    busyDoctor: busyDoctor,
     potential,
   })
+
 
   const slots = offers.filter((slot) => {
     return (
@@ -57,6 +61,7 @@ function Page({
       slot.end <= endDay.toInterval("Etc/GMT").end
     )
   })
+
 
   // If we got this far and there's no selectedDate, set it to the first date
   // with some availability.
@@ -98,7 +103,7 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
 
   const { duration, timeZone, selectedDate } = schema.parse(query)
 
-  // Offer two weeks of availability.
+  // Offer three weeks of availability.
   const start = Day.todayWithOffset(0)
   const end = Day.todayWithOffset(21)
 
@@ -110,11 +115,21 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
     })
   )
 
+  const busyTime = busy.map(({ start, end }:DateTimeIntervalString) => ({
+    start,
+    end,
+  }));
+
+  const busyDoctor = busy.map(({ doctor }:DateTimeIntervalString) => ({
+    doctor,
+  }));
+
   return {
     props: {
       start: start.toString(),
       end: end.toString(),
-      busy: mapDatesToStrings(busy),
+      busyTime: mapDatesToStrings(busyTime),
+      busyDoctor,
       duration,
       ...(timeZone && { timeZone }),
       ...(selectedDate && { selectedDate }),

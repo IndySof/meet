@@ -11,6 +11,8 @@ const AppointmentPropsSchema = z.object({
   end: z.string(),
   timeZone: z.string(),
   location: z.enum(["meet", "phone"]),
+  doctor: z.string(),
+  option: z.string(),
   duration: z
     .string()
     .refine((value) => !Number.isNaN(Number.parseInt(value)), {
@@ -66,7 +68,7 @@ export default async function handler(
   const response = await createCalendarAppointment({
     ...validObject,
     requestId: hash,
-    summary: `${validObject.duration} minute meeting with ${process.env.NEXT_PUBLIC_OWNER_NAME ?? "me"}`,
+    summary: `${validationResult.data.option} - Dr. ${validationResult.data.doctor} - ${validObject.duration} min`,
   })
 
   const details = await response.json()

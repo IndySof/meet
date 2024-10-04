@@ -4,8 +4,9 @@ import dynamic from "next/dynamic"
 import BookingForm from "../booking/BookingForm"
 import DurationPicker from "./controls/DurationPicker"
 import TimezonePicker from "./controls/TimezonePicker"
+import DoctorPicker from "./controls/DoctorPicker"
 import { useProvider } from "@/context/AvailabilityContext"
-import type { DateTimeInterval } from "@/lib/types"
+import type { DateTimeInterval, DateTimeIntervalString } from "@/lib/types"
 import format from "date-fns-tz/format"
 
 // Load these dynamically, without SSR, to avoid hydration issues
@@ -14,7 +15,7 @@ const Calendar = dynamic(() => import("./date/Calendar"), { ssr: false })
 const TimeList = dynamic(() => import("./time/TimeList"), { ssr: false })
 
 type AvailabilityPickerProps = {
-  slots: DateTimeInterval[]
+  slots: DateTimeIntervalString[]
 }
 export default function AvailabilityPicker({ slots }: AvailabilityPickerProps) {
   const {
@@ -22,7 +23,7 @@ export default function AvailabilityPicker({ slots }: AvailabilityPickerProps) {
   } = useProvider()
 
   let maximumAvailability = 0
-  const availabilityByDate = slots.reduce<Record<string, DateTimeInterval[]>>(
+  const availabilityByDate = slots.reduce<Record<string, DateTimeIntervalString[]>>(
     (acc, slot) => {
       // Gives us the same YYYY-MM-DD format as Day.toString()
       const date = format(slot.start, "yyyy-MM-dd", { timeZone })
@@ -40,22 +41,30 @@ export default function AvailabilityPicker({ slots }: AvailabilityPickerProps) {
     {}
   )
 
+
   const availability = selectedDate
     ? availabilityByDate[selectedDate.toString()]
     : []
 
   return (
-    <div className="flex flex-col space-y-8">
-      <div className="flex space-x-6">
-        <DurationPicker />
-        <TimezonePicker />
+    <>
+      <div className="flex flex-col space-y-8 invisible h-0">
+        <div className="flex space-x-6">
+          <TimezonePicker />
+        </div>
       </div>
-      <BookingForm />
-      <Calendar
-        offers={availabilityByDate}
-        maximumAvailability={maximumAvailability}
-      />
-      <TimeList availability={availability} />
-    </div>
-  )
-}
+      <div className="flex flex-col space-y-8">
+        <div className="flex space-x-6">
+          <DurationPicker />
+          <DoctorPicker />
+        </div>
+        <BookingForm />
+        <Calendar
+          offers={availabilityByDate}
+          maximumAvailability={maximumAvailability}
+        />
+        <TimeList availability={availability} />
+      </div>
+    </>
+    )
+    }

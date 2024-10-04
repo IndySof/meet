@@ -1,15 +1,28 @@
 import type { AvailabilitySlotsMap } from "./lib/types"
 
 export const ALLOWED_DURATIONS = [
-  { key: "Vaccination", value: 5 },
-  { key: "Prise de sang", value: 10 },
-  { key: "Test de laboratoire", value: 15 },
-  { key: "Examen médical", value: 20 },
-  { key: "Suivi post-opératoire", value: 25 },
-  { key: "Échographie", value: 30 }
+  { option: "Choisir une prestation", value: 0, id:0 },
+  { option: "Vaccination", value: 5, id:1 },
+  { option: "Test Covid", value: 5, id:7 },
+  { option: "Prise de sang", value: 10, id:2 },
+  { option: "Test de laboratoire", value: 15, id:3 },
+  { option: "Examen médical", value: 20, id:4 },
+  { option: "Suivi post-opératoire", value: 20, id:5 },
+  { option: "Échographie", value: 30, id:6 }
 ]
 
-export const DEFAULT_DURATION = 30
+export const DOCTORS = [
+  {user:"Urgent (Tous les Docteurs)", option:[0]},
+  {user:"Alexis Delaporte", option:[1,2,3,4,5]},
+  {user:"Indiana Sofia", option:[1,2,3,4,6]},
+  {user:"Alex Dupond", option:[1,2,3,5,6]},
+  {user:"Indi Dupont ", option:[1,2,4,5,6]},
+  {user:"Jean Moulin", option:[1,3,4,5,7]},
+  {user:"Louis Martin", option:[2,4,5,6]},
+  {user:"Henri Claude", option:[1,3,4,5,7]}
+]
+
+export const DEFAULT_DURATION = 0
 
 export const CALENDARS_TO_CHECK = ["primary"]
 export const SLOT_PADDING = 0
