@@ -41,7 +41,6 @@ export default function AvailabilityPicker({ slots }: AvailabilityPickerProps) {
     {}
   )
 
-
   const availability = selectedDate
     ? availabilityByDate[selectedDate.toString()]
     : []
@@ -58,7 +57,7 @@ export default function AvailabilityPicker({ slots }: AvailabilityPickerProps) {
           <DurationPicker />
           <DoctorPicker />
         </div>
-        <BookingForm />
+        <BookingForm availability={availability}/>
         <Calendar
           offers={availabilityByDate}
           maximumAvailability={maximumAvailability}

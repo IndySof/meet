@@ -48,20 +48,11 @@ function Page({
     availabilitySlots: OWNER_AVAILABILITY,
   })
 
-  const offers   = getAvailability({
+  const slots   = getAvailability({
     busyTime:  mapStringsToDates(busyTime),
     busyDoctor: busyDoctor,
     potential,
   })
-
-
-  const slots = offers.filter((slot) => {
-    return (
-      slot.start >= startDay.toInterval("Etc/GMT").start &&
-      slot.end <= endDay.toInterval("Etc/GMT").end
-    )
-  })
-
 
   // If we got this far and there's no selectedDate, set it to the first date
   // with some availability.
@@ -123,6 +114,7 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const busyDoctor = busy.map(({ doctor }:DateTimeIntervalString) => ({
     doctor,
   }));
+
 
   return {
     props: {

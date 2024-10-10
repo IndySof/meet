@@ -8,17 +8,18 @@ export const ALLOWED_DURATIONS = [
   { option: "Test de laboratoire", value: 15, id:3 },
   { option: "Examen médical", value: 20, id:4 },
   { option: "Suivi post-opératoire", value: 20, id:5 },
+  { option: "Examen IRM", value: 25, id:8 },
   { option: "Échographie", value: 30, id:6 }
 ]
 
 export const DOCTORS = [
   {user:"Urgent (Tous les Docteurs)", option:[0]},
-  {user:"Alexis Delaporte", option:[1,2,3,4,5]},
-  {user:"Indiana Sofia", option:[1,2,3,4,6]},
-  {user:"Alex Dupond", option:[1,2,3,5,6]},
-  {user:"Indi Dupont ", option:[1,2,4,5,6]},
+  {user:"Alexis Delaporte", option:[1,2,3,4,5,8]},
+  {user:"Indiana Sofia", option:[1,2,3,4,8]},
+  {user:"Alex Dupond", option:[1,2,3,6]},
+  {user:"Indi Dupont ", option:[1,2,4,6]},
   {user:"Jean Moulin", option:[1,3,4,5,7]},
-  {user:"Louis Martin", option:[2,4,5,6]},
+  {user:"Louis Martin", option:[2,4,6,8]},
   {user:"Henri Claude", option:[1,3,4,5,7]}
 ]
 

@@ -2,7 +2,6 @@ import { addMinutes, eachDayOfInterval, set } from "date-fns"
 
 import type Day from "../day"
 import type { AvailabilitySlotsMap, DateTimeInterval } from "../types"
-import mergeOverlappingIntervals from "./mergeOverlappingIntervals"
 
 export default function getPotentialTimes({
   start,
@@ -56,26 +55,21 @@ export default function getPotentialTimes({
 
       let currentIntervalStart = slotStart
 
-      while ( currentIntervalStart < slotEnd && addMinutes(currentIntervalStart, duration) <= slotEnd )
+      while (addMinutes(currentIntervalStart, duration) <= slotEnd )
       {
-        const currentIntervalEnd = addMinutes(currentIntervalStart, duration)
-
-        if (currentIntervalStart >= slotBreakStart && currentIntervalEnd <= slotBreakEnd)
+        if ((currentIntervalStart >= slotBreakStart || addMinutes(currentIntervalStart, duration) > slotBreakStart)
+          && addMinutes(currentIntervalStart, duration) <= slotBreakEnd)
         {
           // Move the currentIntervalStart to the end
           currentIntervalStart = slotBreakEnd;
         }
-        else
-        {
-          intervals.push({
-            start: currentIntervalStart,
-            end: currentIntervalEnd,
-          })
-        }
-        currentIntervalStart = currentIntervalEnd
+
+        intervals.push({start: currentIntervalStart, end: addMinutes(currentIntervalStart, duration)})
+
+        currentIntervalStart = addMinutes(currentIntervalStart, duration)
       }
     }
   })
 
-  return mergeOverlappingIntervals(intervals)
+  return intervals
 }

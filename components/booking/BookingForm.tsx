@@ -10,6 +10,7 @@ import type { ActionType } from "@/context/AvailabilityContext"
 import { useProvider } from "@/context/AvailabilityContext"
 import { formatLocalDate, formatLocalTime } from "@/lib/availability/helpers"
 import { ALLOWED_DURATIONS, DOCTORS } from "@/config"
+import type { DateTimeIntervalString } from "@/lib/types"
 
 const locations = [
   {
@@ -22,7 +23,11 @@ const locations = [
   },
 ]
 
-export default function BookingForm() {
+type TimeListProps = {
+  availability: DateTimeIntervalString[]
+}
+
+export default function BookingForm({ availability }:TimeListProps) {
   const {
     state: { modal, selectedTime, timeZone, duration, doctor, optionId },
     dispatch,
@@ -44,9 +49,16 @@ export default function BookingForm() {
     (option) => option.id === optionId
   )
 
-  const doctorSelected = (doctor === DOCTORS[0].user)
-    ? DOCTORS.find(theDoctor => theDoctor.option.includes(optionId))?.user
-    : doctor;
+  const slotMatches = availability.filter(slot =>
+    slot.start.getTime() === selectedTime.start.getTime() && slot.end.getTime() === selectedTime.end.getTime()
+  );
+
+  const slotMatchesDoctor = slotMatches.map(slot=>slot.doctor)
+
+  const doctorsFiltered = DOCTORS.filter(theDoctor =>
+    !slotMatchesDoctor.includes(theDoctor.user)
+    && theDoctor.option.includes(optionId)
+  )
 
   return (
     <Modal
@@ -71,7 +83,7 @@ export default function BookingForm() {
             <strong>Prestation :</strong> {optionSelected?.option}
           </span>
           <span className="block">
-            <strong>Docteur :</strong> {doctorSelected}
+            <strong>Docteur :</strong> {doctorsFiltered[0].user}
           </span>
         </p>
 
@@ -79,7 +91,7 @@ export default function BookingForm() {
         <input type="hidden" name="end" value={selectedTime.end.toISOString()} />
         <input type="hidden" name="duration" value={duration} />
         <input type="hidden" name="timeZone" value={timeZone} />
-        <input type="hidden" name="doctor" value={doctorSelected} />
+        <input type="hidden" name="doctor" value={doctorsFiltered[0].user} />
         <input type="hidden" name="option" value={optionSelected?.option} />
 
         <div className="border-l-4 border-l-accent-200 bg-accent-50/30 p-3 mt-3 mb-4 rounded-md">

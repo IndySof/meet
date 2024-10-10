@@ -1,4 +1,4 @@
-import type { Dispatch, FC } from "react"
+import React, { Dispatch, FC } from "react"
 import { useReducer, useContext, createContext } from "react"
 
 import { ALLOWED_DURATIONS, DEFAULT_DURATION, DOCTORS } from "@/config"
@@ -80,10 +80,10 @@ const StateContext = createContext<StateType>({
 /**
  * The provider component that wraps the application, providing state and actions.
  *
- * @param {Omit<PageProps, "busy">} props.values - The initial state values.
- * @param {React.ReactNode} props.children - The children components.
+ * param {Omit<PageProps, "busy">} props.values - The initial state values.
+ * param {React.ReactNode} props.children - The children components.
  *
- * @returns {JSX.Element} The provider-wrapped application.
+ * returns {JSX.Element} The provider-wrapped application.
  */
 export function Provider({
   children,
@@ -109,8 +109,8 @@ export function Provider({
 
 /**
  * A higher-order component that wraps a component with the provider.
- * @param {FC<T>} Component - The component to wrap with the provider.
- * @returns {FC<T>} The wrapped component.
+ * param {FC<T>} Component - The component to wrap with the provider.
+ * returns {FC<T>} The wrapped component.
  */
 export function withProvider<T extends PageProps>(Component: FC<T>): FC<T> {
   return function ProviderContainer(props: T) {
@@ -120,7 +120,9 @@ export function withProvider<T extends PageProps>(Component: FC<T>): FC<T> {
       end: props.end,
       selectedDate: props.selectedDate,
       timeZone: props.timeZone,
-      duration: props.duration
+      duration: props.duration,
+      busyTime:props.busyTime,
+      busyDoctor: props.busyDoctor
     }
 
     return (
