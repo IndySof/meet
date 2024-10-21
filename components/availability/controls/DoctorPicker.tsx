@@ -1,12 +1,13 @@
-
-import { DOCTORS } from "@/config"
 import { useProvider } from "@/context/AvailabilityContext"
+import { DOCTORSConfType } from "@/lib/types"
 
-export default function DurationPicker() {
+export default function DurationPicker(configSetDoctor:any) {
   const {
     state: { doctor, optionId },
     dispatch,
   } = useProvider()
+
+  const DOCTORS:DOCTORSConfType[] = configSetDoctor.configSetDoctor
 
   return (
     <div className="w-1/2">

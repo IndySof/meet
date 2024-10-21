@@ -1,4 +1,5 @@
 import { useRouter } from "next/router"
+import Link from "next/link"
 
 export default function Booked() {
   const { query } = useRouter()
@@ -13,14 +14,22 @@ export default function Booked() {
       </h1>
       <p className="mt-6 text-xl text-gray-800 font-medium">
         Il est maintenant sur votre calendrier et une invitation a été envoyée.{" "}
+      </p>
+      <p className="mt-6 text-xl text-gray-800 font-medium">
         <a
           href={"https://www.google.com/calendar/event?eid=" + query.url}
           target="_blank"
           rel="noreferrer"
           className="text-blue-700 underline">
-          Voir sur Google Calendar
+          Google Calendar
         </a>
       </p>
+      <div className="mt-8">
+        <Link href="/"
+              className="inline-flex w-full justify-center rounded-md bg-red-800 px-3 py-2 font-semibold text-white shadow-sm hover:bg-red-700 sm:w-auto disabled:opacity-50">
+          Prendre un nouveau rendez-vous
+        </Link>
+      </div>
     </div>
   )
 }

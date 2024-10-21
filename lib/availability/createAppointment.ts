@@ -52,6 +52,10 @@ function buildEventBody({
         displayName: name,
       },
     ],
+    organizer: {
+      email: process.env.NEXT_PUBLIC_OWNER_EMAIL,
+      displayName: process.env.NEXT_PUBLIC_OWNER_NAME,
+    },
     ...(location === `phone`
       ? { location: process.env.OWNER_PHONE_NUMBER ?? `TBD` }
       : {

@@ -3,14 +3,13 @@ import type {
   InferGetServerSidePropsType
 } from "next"
 import { useEffect } from "react"
-import { date, z } from "zod"
+import { z } from "zod"
 
 import Template from "@/components/Template"
 import AvailabilityPicker from "@/components/availability/AvailabilityPicker"
 import {
-  ALLOWED_DURATIONS,
   DEFAULT_DURATION,
-  OWNER_AVAILABILITY,
+  firebaseConfig,
 } from "@/config"
 import { useProvider, withProvider } from "@/context/AvailabilityContext"
 import getAvailability from "@/lib/availability/getAvailability"
@@ -24,6 +23,10 @@ import {
 import type { DateTimeIntervalString } from "@/lib/types"
 import Day from "@/lib/day"
 import localeDayString from "@/lib/locale"
+import fetchConfig from "@/lib/admin/firebase/getConfig"
+import { initializeApp } from "firebase/app"
+
+export const app = initializeApp(firebaseConfig)
 
 export type PageProps = InferGetServerSidePropsType<typeof getServerSideProps>
 
@@ -32,9 +35,12 @@ function Page({
   end,
   busyTime,
   busyDoctor,
+  configSetDuration,
+  configSetDoctor,
+  configSetAvailability
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
-    state: { duration, selectedDate },
+    state: { duration, selectedDate},
     dispatch,
   } = useProvider()
 
@@ -45,10 +51,10 @@ function Page({
     start: startDay,
     end: endDay,
     duration,
-    availabilitySlots: OWNER_AVAILABILITY,
+    availabilitySlots: configSetAvailability,
   })
 
-  const slots   = getAvailability({
+  const slots = getAvailability({
     busyTime:  mapStringsToDates(busyTime),
     busyDoctor: busyDoctor,
     potential,
@@ -73,15 +79,28 @@ function Page({
   return (
     <main className="max-w-2xl sm:mx-auto mx-4 pb-24">
       <Template />
-      <AvailabilityPicker slots={slots} />
+      <AvailabilityPicker slots={slots} configSetDuration={configSetDuration} configSetDoctor={configSetDoctor}/>
     </main>
   )
 }
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
+
+  let configSetDuration = [{ option: "Choisir une prestation", value: 0, id:0 }]
+  let configSetDoctor = null
+  let configSetAvailability = null
+
+  try {
+    configSetDuration = await fetchConfig("ALLOWED_DURATIONS")
+    configSetDoctor = await fetchConfig("DOCTORS")
+    configSetAvailability = await fetchConfig("OWNER_AVAILABILITY")
+  } catch (error) {
+    console.error(error)
+  }
+
   const schema = z.object({
     duration: z
-      .enum([...(ALLOWED_DURATIONS.map((d) => String(d.value)) as [string, ...string[]])])
+      .enum([...(configSetDuration.map((d) => String(d.value)) as [string, ...string[]])])
       .optional()
       .default(String(DEFAULT_DURATION))
       .transform(Number),
@@ -109,12 +128,11 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const busyTime = busy.map(({ start, end }:DateTimeIntervalString) => ({
     start,
     end,
-  }));
+  }))
 
   const busyDoctor = busy.map(({ doctor }:DateTimeIntervalString) => ({
     doctor,
-  }));
-
+  }))
 
   return {
     props: {
@@ -125,6 +143,9 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
       duration,
       ...(timeZone && { timeZone }),
       ...(selectedDate && { selectedDate }),
+      configSetDuration:configSetDuration,
+      configSetDoctor:configSetDoctor,
+      configSetAvailability:configSetAvailability
     },
   }
 }

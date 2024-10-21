@@ -89,7 +89,7 @@ export default async function handler(
     option
   })
   await sendMail({
-    to: process.env.OWNER_EMAIL ?? "",
+    to: process.env.NEXT_PUBLIC_OWNER_EMAIL ?? "",
     subject: approveEmail.subject,
     body: approveEmail.body,
   })

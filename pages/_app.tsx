@@ -14,9 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>{`Meet avec ${
-          process.env.NEXT_PUBLIC_OWNER_NAME ?? "me"
-        }`}</title>
+        <title>Meet me</title>
         <link
           rel="icon"
           type="image/png"

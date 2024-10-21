@@ -9,8 +9,7 @@ import Spinner from "../Spinner"
 import type { ActionType } from "@/context/AvailabilityContext"
 import { useProvider } from "@/context/AvailabilityContext"
 import { formatLocalDate, formatLocalTime } from "@/lib/availability/helpers"
-import { ALLOWED_DURATIONS, DOCTORS } from "@/config"
-import type { DateTimeIntervalString } from "@/lib/types"
+import { AllowedDurationConfType, DateTimeIntervalString, DOCTORSConfType } from "@/lib/types"
 
 const locations = [
   {
@@ -25,13 +24,19 @@ const locations = [
 
 type TimeListProps = {
   availability: DateTimeIntervalString[]
+  configSetDuration:any
+  configSetDoctor: any
 }
 
-export default function BookingForm({ availability }:TimeListProps) {
+export default function BookingForm({ availability, configSetDuration, configSetDoctor }:TimeListProps) {
   const {
-    state: { modal, selectedTime, timeZone, duration, doctor, optionId },
+    state: { modal, selectedTime, timeZone, duration, optionId, doctor },
     dispatch,
   } = useProvider()
+
+  const ALLOWED_DURATIONS:AllowedDurationConfType[] = configSetDuration
+  const DOCTORS:DOCTORSConfType[] = configSetDoctor
+
   const router = useRouter()
 
   if (!selectedTime || !timeZone) {
@@ -51,7 +56,7 @@ export default function BookingForm({ availability }:TimeListProps) {
 
   const slotMatches = availability.filter(slot =>
     slot.start.getTime() === selectedTime.start.getTime() && slot.end.getTime() === selectedTime.end.getTime()
-  );
+  )
 
   const slotMatchesDoctor = slotMatches.map(slot=>slot.doctor)
 
@@ -59,6 +64,8 @@ export default function BookingForm({ availability }:TimeListProps) {
     !slotMatchesDoctor.includes(theDoctor.user)
     && theDoctor.option.includes(optionId)
   )
+
+  const doctorSelected = doctor == DOCTORS[0].user ? doctorsFiltered[0].user : doctor
 
   return (
     <Modal
@@ -83,7 +90,7 @@ export default function BookingForm({ availability }:TimeListProps) {
             <strong>Prestation :</strong> {optionSelected?.option}
           </span>
           <span className="block">
-            <strong>Docteur :</strong> {doctorsFiltered[0].user}
+            <strong>Docteur :</strong> {doctorSelected}
           </span>
         </p>
 
@@ -91,7 +98,7 @@ export default function BookingForm({ availability }:TimeListProps) {
         <input type="hidden" name="end" value={selectedTime.end.toISOString()} />
         <input type="hidden" name="duration" value={duration} />
         <input type="hidden" name="timeZone" value={timeZone} />
-        <input type="hidden" name="doctor" value={doctorsFiltered[0].user} />
+        <input type="hidden" name="doctor" value={doctorSelected} />
         <input type="hidden" name="option" value={optionSelected?.option} />
 
         <div className="border-l-4 border-l-accent-200 bg-accent-50/30 p-3 mt-3 mb-4 rounded-md">

@@ -23,7 +23,7 @@ export default function ApprovalEmail({
   option: string
 }) {
 
-  const SUBJECT = `${name} souhaite prendre rendez-vous avec vous`
+  const SUBJECT = `Rendez-vous : ${doctor} - ${option}`
 
   let locationName:string
 
@@ -48,9 +48,8 @@ Serait-il possible de fixer un autre rendez-vous ?`
 
   let body = `<div dir="ltr">`
   body += [
-    `<b>${name}</b> a demandé un rendez-vous le <b>${dateSummary}</b>, via <b>${locationName}</b>`,
-    `<br>`,
-    `Le fuseau horaire local est  ${timeZone}`,
+    `<b>${name}</b> a demandé un rendez-vous : <b>${option}</b> avec le docteur <b>${doctor}</b> le <b>${dateSummary}</b> via <b>${locationName}</b>.`,
+    ` Le fuseau horaire local est  ${timeZone}`,
     `<br>`,
     `<br>`,
     `<b><a href=${approveUrl}>Accepter le rendez-vous</a></b>`,

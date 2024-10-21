@@ -3,7 +3,7 @@ import { useReducer, useContext, createContext } from "react"
 
 import { ALLOWED_DURATIONS, DEFAULT_DURATION, DOCTORS } from "@/config"
 import Day from "@/lib/day"
-import type { DateTimeInterval } from "@/lib/types"
+import type { DateTimeInterval, AllowedDurationConfType, DOCTORSConfType, AvailabilitySlotsMap } from "@/lib/types"
 import type { PageProps } from "@/pages"
 
 type ModalStatus = "open" | "busy" | "error" | "closed"
@@ -74,7 +74,7 @@ const StateContext = createContext<StateType>({
   timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   modal: "closed",
   optionId: 0,
-  doctor: DOCTORS[0].user
+  doctor: DOCTORS[0].user,
 })
 
 /**
@@ -122,7 +122,10 @@ export function withProvider<T extends PageProps>(Component: FC<T>): FC<T> {
       timeZone: props.timeZone,
       duration: props.duration,
       busyTime:props.busyTime,
-      busyDoctor: props.busyDoctor
+      busyDoctor: props.busyDoctor,
+      configSetDuration:props.configSetDuration,
+      configSetDoctor:props.configSetDoctor,
+      configSetAvailability:props.configSetAvailability
     }
 
     return (
@@ -148,16 +151,11 @@ function getInitialState(values: Omit<PageProps, "busy">): StateType {
     timeZone,
     start: Day.dayFromString(values.start),
     end: Day.dayFromString(values.end),
-    selectedDate: values.selectedDate
-      ? Day.dayFromString(values.selectedDate)
-      : undefined,
-    duration:
-      values.duration && !Number.isNaN(values.duration)
-        ? values.duration
-        : DEFAULT_DURATION,
+    selectedDate: Day.todayWithOffset(0),
+    duration: DEFAULT_DURATION,
     modal: "closed",
     optionId:0,
-    doctor: DOCTORS[0].user
+    doctor: DOCTORS[0].user,
   }
 }
 
@@ -226,15 +224,14 @@ function reducerFunction(state: StateType, action: ActionType): StateType {
   }
 
   // Update the URL with the new state of duration,
-  // timeZone and selectedDate (if set).
   const newUrl = new URLSearchParams({
     duration: newState.duration.toString(),
     optionId:newState.optionId.toString(),
     doctor: newState.doctor.toString(),
     timeZone: newState.timeZone,
-    ...(newState.selectedDate && {
-      selectedDate: newState.selectedDate.toString(),
-    }),
+    selectedDate: newState.selectedDate
+      ? newState.selectedDate.toString()
+      : Day.todayWithOffset(0).toString()
   })
 
   // Push to the window.

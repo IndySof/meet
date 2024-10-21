@@ -1,4 +1,3 @@
-import { utcToZonedTime } from "date-fns-tz"
 import dynamic from "next/dynamic"
 
 import BookingForm from "../booking/BookingForm"
@@ -6,7 +5,9 @@ import DurationPicker from "./controls/DurationPicker"
 import TimezonePicker from "./controls/TimezonePicker"
 import DoctorPicker from "./controls/DoctorPicker"
 import { useProvider } from "@/context/AvailabilityContext"
-import type { DateTimeInterval, DateTimeIntervalString } from "@/lib/types"
+import type {
+  DateTimeIntervalString,
+} from "@/lib/types"
 import format from "date-fns-tz/format"
 
 // Load these dynamically, without SSR, to avoid hydration issues
@@ -16,8 +17,10 @@ const TimeList = dynamic(() => import("./time/TimeList"), { ssr: false })
 
 type AvailabilityPickerProps = {
   slots: DateTimeIntervalString[]
+  configSetDuration: any
+  configSetDoctor: any
 }
-export default function AvailabilityPicker({ slots }: AvailabilityPickerProps) {
+export default function AvailabilityPicker({ slots, configSetDuration, configSetDoctor }: AvailabilityPickerProps) {
   const {
     state: { selectedDate, timeZone },
   } = useProvider()
@@ -49,21 +52,18 @@ export default function AvailabilityPicker({ slots }: AvailabilityPickerProps) {
     <>
       <div className="flex flex-col space-y-8 invisible h-0">
         <div className="flex space-x-6">
-          <TimezonePicker />
+          <TimezonePicker/>
         </div>
       </div>
       <div className="flex flex-col space-y-8">
         <div className="flex space-x-6">
-          <DurationPicker />
-          <DoctorPicker />
+          <DurationPicker configSetDuration={configSetDuration}/>
+          <DoctorPicker configSetDoctor={configSetDoctor}/>
         </div>
-        <BookingForm availability={availability}/>
-        <Calendar
-          offers={availabilityByDate}
-          maximumAvailability={maximumAvailability}
-        />
-        <TimeList availability={availability} />
+        <BookingForm availability={availability} configSetDuration={configSetDuration} configSetDoctor={configSetDoctor}/>
+        <Calendar offers={availabilityByDate} maximumAvailability={maximumAvailability}/>
+        <TimeList availability={availability} configSetDoctor={configSetDoctor}/>
       </div>
     </>
-    )
-    }
+  )
+}

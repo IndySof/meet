@@ -1,13 +1,13 @@
-import clsx from "clsx"
-
-import { ALLOWED_DURATIONS } from "@/config"
 import { useProvider } from "@/context/AvailabilityContext"
+import { AllowedDurationConfType } from "@/lib/types"
 
-export default function DurationPicker() {
+export default function DurationPicker(configSetDuration:any) {
   const {
     state: { duration, optionId },
     dispatch,
   } = useProvider()
+
+  const ALLOWED_DURATIONS:AllowedDurationConfType[] = configSetDuration.configSetDuration
 
   return (
     <div className="w-1/2">
@@ -37,14 +37,20 @@ export default function DurationPicker() {
             payload: selectedOptionId,
           })
         }}>
-        {ALLOWED_DURATIONS.map((option) => (
+        {ALLOWED_DURATIONS.slice()
+          .sort((a, b) => {
+            if (a.value !== b.value) {
+              return a.value - b.value
+            }
+            return a.option.localeCompare(b.option)
+          })
+          .map((option) => (
           <option key={option.id} value={option.id}>
             {option.option}
           </option>
         ))}
       </select>
 
-      {/* Input hidden for optionId */}
       <input type="hidden" id="duration" name="duration" value={duration} />
 
     </div>

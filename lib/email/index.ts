@@ -38,14 +38,14 @@ async function sendMail({ to, subject, body }: SendMailParams): Promise<void> {
 
   await transporter.sendMail({
     from: {
-      address: process.env.OWNER_EMAIL,
-      name: process.env.OWNER_NAME,
+      address: process.env.NEXT_PUBLIC_OWNER_EMAIL,
+      name: process.env.NEXT_PUBLIC_OWNER_NAME,
     },
     to,
     subject,
     html: body,
     auth: {
-      user: process.env.OWNER_EMAIL,
+      user: process.env.NEXT_PUBLIC_OWNER_EMAIL,
       refreshToken: process.env.GOOGLE_OAUTH_REFRESH,
     },
   } as SendMailOptions & { auth: { user: string; refreshToken: string; accessToken?: string } })

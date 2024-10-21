@@ -1,17 +1,18 @@
 import Time from "./TimeButton"
-import type { DateTimeIntervalString } from "@/lib/types"
+import { DateTimeIntervalString, DOCTORSConfType } from "@/lib/types"
 import { useProvider } from "@/context/AvailabilityContext"
-import { DOCTORS } from "@/config"
-import { useMemo } from "react"
 
 type TimeListProps = {
-  availability: DateTimeIntervalString[]
+  availability: DateTimeIntervalString[],
+  configSetDoctor:any
 }
 
-export default function TimeList({ availability }: TimeListProps) {
+export default function TimeList({ availability, configSetDoctor }: TimeListProps) {
   const {
     state: { doctor, optionId },
   } = useProvider()
+
+  const DOCTORS:DOCTORSConfType[] = configSetDoctor
 
   const doctorAll = DOCTORS.find(doctor => doctor.option.includes(0))?.user;
 
@@ -35,7 +36,7 @@ export default function TimeList({ availability }: TimeListProps) {
         {
           doctorFlag = true
         }
-        if(availability[i].start == availability[i+1].start || (nbLoop == nbDoctor && doctorAll == doctor))
+        if(availability[i].start == availability[i+1]?.start || (nbLoop == nbDoctor && doctorAll == doctor))
         {
           i++
         }

@@ -64,6 +64,18 @@ export type DateTimeIntervalWithTimezone = DateTimeInterval & {
   timeZone: string
 }
 
+export type AllowedDurationConfType = {
+  option: string;
+  value: number;
+  id: number;
+}
+
+export type DOCTORSConfType =
+{
+  user:string,
+  option: number[]
+}
+
 /**
  * Represents a meeting request that is sent to the owner.
  */
@@ -88,4 +100,5 @@ export type AppointmentProps = {
   duration: string
   doctor: string
   option:string
+
 }
