@@ -28,13 +28,18 @@ export default function DurationPicker(configSetDoctor:any) {
           })
         }}>
         {
-          DOCTORS.filter(theDoctor =>
-            theDoctor.option.includes(optionId) || theDoctor.option[0] == 0
-          ).map((theDoctor) => (
-          <option key={theDoctor.user} value={theDoctor.user}>
-            {theDoctor.user}
-          </option>
-        ))}
+          [
+            DOCTORS[0],
+            ...DOCTORS.filter(
+              (theDoctor, index) =>
+                index !== 0 && (theDoctor.option.includes(optionId) || theDoctor.option[0] == 0)
+            ).sort((a, b) => a.user.localeCompare(b.user))
+          ].map((theDoctor) => (
+            <option key={theDoctor.user} value={theDoctor.user}>
+              {theDoctor.user}
+            </option>
+          ))
+        }
       </select>
     </div>
   )

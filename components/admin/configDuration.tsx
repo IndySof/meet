@@ -39,8 +39,13 @@ export default function ConfigDuration({ configSetDuration, }: { configSetDurati
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
+    const newDurations = durations.map((duration) => ({
+      ...duration,
+      option: duration.option.trim(),
+    }));
+
     try {
-      await updateConfig("ALLOWED_DURATIONS", durations )
+      await updateConfig("ALLOWED_DURATIONS", newDurations )
       alert("Les données ont été mise à jour")
       window.location.reload()
     } catch (error) {

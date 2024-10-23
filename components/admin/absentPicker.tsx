@@ -123,7 +123,7 @@ function AbsentPicker(configSetDoctor:any)
           <button
             type="submit"
             className="inline-flex w-full justify-center text-sm rounded-md bg-red-800 px-3 py-2 text-white shadow-sm hover:bg-red-700 sm:w-auto disabled:opacity-50">
-            Confirmer Absence
+            Confirmer l&apos;Absence
           </button>
         </div>
       </form>

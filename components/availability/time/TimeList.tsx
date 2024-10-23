@@ -14,13 +14,13 @@ export default function TimeList({ availability, configSetDoctor }: TimeListProp
 
   const DOCTORS:DOCTORSConfType[] = configSetDoctor
 
-  const doctorAll = DOCTORS.find(doctor => doctor.option.includes(0))?.user;
+  const doctorAll = DOCTORS.find(doctor => doctor.option.includes(0))?.user
 
   const nbDoctor = DOCTORS.filter(theDoctor =>
     theDoctor.option.includes(optionId)
   ).length
 
-   const availabilityFiltered = []
+  const availabilityFiltered = []
 
   if (availability)
   {
@@ -36,7 +36,7 @@ export default function TimeList({ availability, configSetDoctor }: TimeListProp
         {
           doctorFlag = true
         }
-        if(availability[i].start == availability[i+1]?.start || (nbLoop == nbDoctor && doctorAll == doctor))
+        if((availability.length > i+1 && availability[i].start == availability[i+1].start ) || (nbLoop == nbDoctor && doctorAll == doctor))
         {
           i++
         }
@@ -51,8 +51,8 @@ export default function TimeList({ availability, configSetDoctor }: TimeListProp
       {
         availabilityFiltered.push({
           start:  availability[i].start,
-          end:  availability[i].end
-        });
+          end:  availability[i].end,
+        })
       }
     }
   }

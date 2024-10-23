@@ -67,9 +67,9 @@ export default function BookingForm({ availability, configSetDuration, configSet
   const doctorsFiltered = DOCTORS.filter(theDoctor =>
     !slotMatchesDoctor.includes(theDoctor.user)
     && theDoctor.option.includes(optionId)
-  )
+  ).sort((a, b) => a.user.localeCompare(b.user))
 
-  const doctorSelected = doctor == DOCTORS[0].user ? doctorsFiltered[0].user : doctor
+  const doctorSelected = doctor == DOCTORS[0].user && doctorsFiltered.length ? doctorsFiltered[0].user : doctor
 
   return (
     <Modal
