@@ -20,7 +20,7 @@ export default function TimeList({ availability, configSetDoctor }: TimeListProp
     theDoctor.option.includes(optionId)
   ).length
 
-  const availabilityFiltered = []
+   const availabilityFiltered = []
 
   if (availability)
   {
@@ -47,7 +47,7 @@ export default function TimeList({ availability, configSetDoctor }: TimeListProp
         }
       }
 
-      if (!doctorFlag)
+      if (!doctorFlag && nbDoctor)
       {
         availabilityFiltered.push({
           start:  availability[i].start,

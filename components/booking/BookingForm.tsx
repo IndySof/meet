@@ -13,6 +13,10 @@ import { AllowedDurationConfType, DateTimeIntervalString, DOCTORSConfType } from
 
 const locations = [
   {
+    name: "Sur Site",
+    value: "desk",
+  },
+  {
     name: "Téléphone",
     value: "phone",
   },

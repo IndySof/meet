@@ -40,17 +40,18 @@ export default function ConfigDuration({ configSetDuration, }: { configSetDurati
     event.preventDefault()
 
     try {
-      await updateConfig("ALLOWED_DURATIONS", durations );
-      alert("Les données ont été mise à jour");
+      await updateConfig("ALLOWED_DURATIONS", durations )
+      alert("Les données ont été mise à jour")
+      window.location.reload()
     } catch (error) {
-      alert("Erreur lors de la mise à jour des données");
+      alert("Erreur lors de la mise à jour des données")
       console.error(error);
     }
   }
 
   return (
-    <div id="duration-section" className="mb-8 mx-auto max-w-2xl">
-      <hr className="my-8 border-t-2 border-gray-300 mx-auto max-w-2xl " />
+    <div id="duration-section" className="mb-6 mx-auto max-w-2xl">
+      <hr className="my-6 border-t-2 border-gray-300 mx-auto max-w-2xl " />
       <h2 className="text-2xl font-semibold text-accent-600">Prestations</h2>
       <br />
       <form
@@ -67,7 +68,7 @@ export default function ConfigDuration({ configSetDuration, }: { configSetDurati
               Durée (min)
             </th>
             <th className="border px-4 py-2 text-left font-medium">
-              Supprimer
+
             </th>
           </tr>
           </thead>
@@ -121,7 +122,7 @@ export default function ConfigDuration({ configSetDuration, }: { configSetDurati
             type="button"
             onClick={handleAdd}
             className="inline-flex w-full justify-center text-sm rounded-md bg-red-800 px-3 py-2 text-white shadow-sm hover:bg-red-700 sm:w-auto disabled:opacity-50">
-            Ajouter Prestation
+            Ajouter une Prestation
           </button>
           <button
             type="submit"

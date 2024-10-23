@@ -10,7 +10,7 @@ const AppointmentPropsSchema = z.object({
   start: z.string(),
   end: z.string(),
   timeZone: z.string(),
-  location: z.enum(["meet", "phone"]),
+  location: z.enum(["desk", "meet", "phone"]),
   doctor: z.string(),
   option: z.string(),
   duration: z

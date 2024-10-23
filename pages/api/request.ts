@@ -28,7 +28,7 @@ const AppointmentRequestSchema = z.object({
     message: "End must be a valid date.",
   }),
   timeZone: z.string(),
-  location: z.enum(["meet", "phone"]),
+  location: z.enum(["desk", "meet", "phone"]),
   doctor: z.string(),
   option: z.string(),
   duration: z

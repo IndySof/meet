@@ -26,14 +26,23 @@ export default function ApprovalEmail({
   const SUBJECT = `Rendez-vous : ${doctor} - ${option}`
 
   let locationName:string
+  let locationPre:string
 
-  if (location === `phone`)
+
+  if (location === `desk`)
+  {
+    locationName = "Site"
+    locationPre = "sur"
+  }
+  else if (location === `phone`)
   {
     locationName = "Téléphone"
+    locationPre = "au"
   }
   else
   {
     locationName = "Google Meet"
+    locationPre = "via"
   }
 
   const declineUrl = `mailto:${encodeURI(email)}?subject=${encodeURIComponent(
@@ -48,7 +57,7 @@ Serait-il possible de fixer un autre rendez-vous ?`
 
   let body = `<div dir="ltr">`
   body += [
-    `<b>${name}</b> a demandé un rendez-vous : <b>${option}</b> avec le docteur <b>${doctor}</b> le <b>${dateSummary}</b> via <b>${locationName}</b>.`,
+    `<b>${name}</b> a demandé un rendez-vous : <b>${option}</b> avec le docteur <b>${doctor}</b> le <b>${dateSummary}</b> ${locationPre} <b>${locationName}</b>.`,
     ` Le fuseau horaire local est  ${timeZone}`,
     `<br>`,
     `<br>`,

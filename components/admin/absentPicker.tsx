@@ -6,9 +6,9 @@ function AbsentPicker(configSetDoctor:any)
 {
   const DOCTORS:DOCTORSConfType[]= configSetDoctor.configSetDoctor
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [doctor, setDoctor] = useState("");
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
+  const [doctor, setDoctor] = useState("")
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -35,7 +35,7 @@ function AbsentPicker(configSetDoctor:any)
       start: start.toISOString(),
       end: end.toISOString(),
       timeZone: OWNER_TIMEZONE,
-      location: "phone",
+      location: "desk",
       doctor: doctor,
       option: option,
       duration: duration
@@ -62,15 +62,15 @@ function AbsentPicker(configSetDoctor:any)
   }
 
   return (
-    <div id="absent-section" className="mb-8 mx-auto max-w-2xl">
-      <hr className="my-8 border-t-2 border-gray-300 mx-auto max-w-2xl " />
+    <div id="absent-section" className="mb-6 mx-auto max-w-2xl">
+      <hr className="my-6 border-t-2 border-gray-300 mx-auto max-w-2xl " />
       <h2 className="text-2xl font-semibold text-accent-600">Absences</h2>
       <form
         onSubmit={(event) => {
           handleSubmit(event)
         }}>
-        <div className="flex space-x-6 mt-6">
-          <div className="w-1/3">
+        <div className="flex mt-6">
+          <div className="w-1/2">
             <label
               htmlFor="doctorABS"
               className="block text-sm font-bold leading-0 text-gray-900">
@@ -95,25 +95,25 @@ function AbsentPicker(configSetDoctor:any)
             </select>
           </div>
 
-          <div className="w-2/3">
-            <label className="block text-sm font-bold text-gray-900">
+          <div className="">
+            <label className="block text-sm font-bold text-gray-900 ml-6">
               Date et heure de début et de fin de l&apos;absence
             </label>
-            <div className="flex space-x-6">
-              <div className="w-1/2">
+            <div className="flex">
+              <div className="w-1/2 ml-6">
                 <input
                   type="datetime-local"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-2 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>
-              <div className="w-1/2">
+              <div className="ml-3">
                 <input
                   type="datetime-local"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-2 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>
             </div>

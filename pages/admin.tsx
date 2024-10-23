@@ -41,7 +41,7 @@ export default function Admin({
 {
   return (
     <>
-      <div className="pt-8 mx-auto max-w-2xl flex justify-end">
+      <div className="pt-6 mx-auto max-w-2xl flex justify-end">
         <div>
           <Link
             href="/"
@@ -50,15 +50,15 @@ export default function Admin({
           </Link>
         </div>
       </div>
-      <div className="pt-8 mx-auto max-w-2xl">
+      <div className="pt-6 mx-auto max-w-2xl">
         <h1 className="text-3xl font-bold tracking-tight text-accent-700 sm:text-5xl">
           Tableaux de Gestion et de Configuration du Calendrier
         </h1>
       </div>
 
-      <hr className="my-8 border-t-2 border-gray-300 mx-auto max-w-2xl "/>
+      <hr className="my-6 border-t-2 border-gray-300 mx-auto max-w-2xl "/>
 
-      <div className="flex justify-between mb-8 mx-auto max-w-2xl">
+      <div className="flex justify-between mb-6 mx-auto max-w-2xl">
         <button
           onClick={() =>
             document.getElementById("absent-section")?.scrollIntoView({ behavior: "smooth"})
@@ -91,10 +91,10 @@ export default function Admin({
 
       <AbsentPicker configSetDoctor={configSetDoctor}/>
       <ConfigDuration configSetDuration={configSetDuration} />
-      <ConfigDoctor configSetDoctor={configSetDoctor} />
+      <ConfigDoctor configSetDoctor={configSetDoctor} configSetDuration={configSetDuration} />
       <ConfigAvailability configSetAvailability={configSetAvailability} />
 
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center mt-6">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="inline-flex w-full justify-center rounded-md bg-red-800 px-3 py-2 font-semibold text-white shadow-sm hover:bg-red-700 sm:w-auto disabled:opacity-50">

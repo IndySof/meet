@@ -46,3 +46,5 @@ export const LOCAL_TIME_OPTIONS: Intl.DateTimeFormatOptions = {
   hour: "numeric",
   minute: "numeric",
 }
+
+export const WEEKDAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];

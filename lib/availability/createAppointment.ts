@@ -11,13 +11,14 @@ function buildDescription(location: string, doctor:string, option:string) {
   const baseDescription = `Bonjour, merci d'avoir fixer un rendez-vous !\n\n`
   const phoneDetails = `Mon numéro de téléphone est ${process.env.OWNER_PHONE_NUMBER} mais faites-moi savoir si vous préférez que je vous appelle.`
   const meetDetails = `Les détails pour Google Meet sont joints ; merci de me dire si cela vous convient ou si vous souhaitez utiliser une autre plateforme.`
+  const deskDetails = `L'adresse ainsi que les informations sur le stationnement sont disponibles sur la page Google. N'hésitez pas à nous contacter si vous avez besoin d'informations supplémentaires.`
   const closing = `\n\nÀ bientôt !\n\n\n\n`
   const doctorInfo = `DOCTOR : [ - ${doctor} - ]`
 
   return (
     eventInfo +
     baseDescription +
-    (location === `phone` ? phoneDetails : meetDetails) +
+    (location === `phone` ? phoneDetails : (location === `desk` ? deskDetails : meetDetails) )+
     closing +
     doctorInfo
   )
@@ -56,7 +57,7 @@ function buildEventBody({
       email: process.env.NEXT_PUBLIC_OWNER_EMAIL,
       displayName: process.env.NEXT_PUBLIC_OWNER_NAME,
     },
-    ...(location === `phone`
+    ...(location === `phone` || location === `desk`
       ? { location: process.env.OWNER_PHONE_NUMBER ?? `TBD` }
       : {
           conferenceData: {
