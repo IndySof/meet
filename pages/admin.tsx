@@ -6,6 +6,8 @@ import ConfigDoctor from "@/components/admin/configDoctor"
 import ConfigAvailability from "@/components/admin/configAvailability"
 import AbsentPicker from "@/components/admin/absentPicker"
 import { ALLOWED_DURATIONS, DOCTORS, OWNER_AVAILABILITY } from "@/config"
+import { useRouter } from "next/router"
+import { useEffect } from "react";
 
 export async function getServerSideProps() {
   let configSetDuration: AllowedDurationConfType[] = ALLOWED_DURATIONS
@@ -17,7 +19,7 @@ export async function getServerSideProps() {
     configSetDoctor = await fetchConfig("DOCTORS");
     configSetAvailability = await fetchConfig("OWNER_AVAILABILITY");
   } catch (error) {
-    console.error(error)
+    // console.error(error)
   }
 
   return {
@@ -34,11 +36,38 @@ export default function Admin({
   configSetDoctor,
   configSetAvailability,
 }: {
-  configSetDuration: AllowedDurationConfType[];
-  configSetDoctor: DOCTORSConfType[];
-  configSetAvailability: AvailabilitySlotsMap;
+  configSetDuration: AllowedDurationConfType[]
+  configSetDoctor: DOCTORSConfType[]
+  configSetAvailability: AvailabilitySlotsMap
 })
 {
+  const router = useRouter()
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = sessionStorage.getItem("authToken") || ""
+      const timestamp = sessionStorage.getItem("tokenCreationTime") || ""
+
+      if (token.length < 500 || !timestamp ) {
+        router.push("/login")
+      }
+
+      if (timestamp) {
+        const tokenTime = parseInt(timestamp, 10)
+        const now = Date.now()
+
+        const validTime = 2*60*60*1000 // 2 h to ms
+
+        if (now - tokenTime > validTime) {
+          alert("Votre session à expirer ! \nVeuillez vous reconnectez pour accéder la page administrateur.")
+          sessionStorage.setItem("authToken", "")
+          sessionStorage.setItem("tokenCreationTime", "")
+          router.push("/login")
+        }
+      }
+    }
+  }, [router]);
+
   return (
     <>
       <div className="pt-6 mx-auto max-w-2xl flex justify-end">
@@ -105,3 +134,4 @@ export default function Admin({
     </>
   )
 }
+

@@ -15,15 +15,15 @@ async function fetchConfig(conf:string) {
         return configData
       }
       else {
-        console.log("No ", conf)
+        // console.log("No ", conf)
         return null
       }
     } else {
-      console.log("No data")
+      // console.log("No data")
       return null
     }
   } catch (error) {
-    console.error(error)
+    // console.error(error)
     return null
   }
 }

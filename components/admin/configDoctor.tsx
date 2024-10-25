@@ -64,7 +64,7 @@ export default function ConfigDoctor({ configSetDoctor, configSetDuration }: { c
         alert("Les données ont été mises à jour")
       } catch (error) {
         alert("Erreur lors de la mise à jour des données")
-        console.error(error)
+        // console.error(error)
       }
     }
   }

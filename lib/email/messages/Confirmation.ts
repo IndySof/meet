@@ -10,7 +10,7 @@ export default function ConfirmationEmail({
 }) {
   let body = `<div dir="ltr">`
   body += [
-    `Bonjour`,
+    `Bonjour,`,
     `<br>`,
     `Nous confirmons la réception de votre demande pour le <b>${dateSummary}</b>. 
 Nous allons l'examiner dès que possible et nous vous contacterons pour confirmer la disponibilité.`,

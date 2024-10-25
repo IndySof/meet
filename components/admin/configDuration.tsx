@@ -50,7 +50,7 @@ export default function ConfigDuration({ configSetDuration, }: { configSetDurati
       window.location.reload()
     } catch (error) {
       alert("Erreur lors de la mise à jour des données")
-      console.error(error);
+      // console.error(error)
     }
   }
 

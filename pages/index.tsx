@@ -25,8 +25,10 @@ import Day from "@/lib/day"
 import localeDayString from "@/lib/locale"
 import fetchConfig from "@/lib/admin/firebase/getConfig"
 import { initializeApp } from "firebase/app"
+import { getAuth } from "firebase/auth"
 
 export const app = initializeApp(firebaseConfig)
+export const auth = getAuth(app);
 
 export type PageProps = InferGetServerSidePropsType<typeof getServerSideProps>
 
@@ -95,7 +97,7 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
     configSetDoctor = await fetchConfig("DOCTORS")
     configSetAvailability = await fetchConfig("OWNER_AVAILABILITY")
   } catch (error) {
-    console.error(error)
+    // console.error(error)
   }
 
   const schema = z.object({
