@@ -49,7 +49,7 @@ export default function Admin({
       const timestamp = sessionStorage.getItem("tokenCreationTime") || ""
 
       if (token.length < 500 || !timestamp ) {
-        router.push("/login")
+        router.replace("/login")
       }
 
       if (timestamp) {
