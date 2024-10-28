@@ -1,34 +1,43 @@
-## Hello world! 👋
 
-This is my first project. I’m Tim, currently an out-of-work Product Manager. Gotta love 2023. I’ve worked at companies like Google, Meta and Tripadvisor (as a PM), but have always enjoyed hobbyist coding.
+# Solution de Planification Personnelle
 
-For some weird reason, I’ve been interested in a personal self-scheduling solution (like Calendly, Cal.com), but one that's simple, free, and without branding or bloat.
+Bonjour tout le monde ! 👋
 
-**So, I made my own Calendly alternative, and wanted to share with the world and walk through it.**
+Voici une solution de planification personnelle (comme Calendly, Cal.com), mais qui soit simple, gratuite, sans branding et sans fonctionnalités superflues.
 
-![Walkthrough](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/oqdsguqjfg3ky4o8zjb0.gif)
+![img.png](img.png)
 
-The current solution is intentionally lightweight and opinionated, but hopefully flexible enough should you want to extend it.
+Vous avez également accès à une page d'administration `your-domain/admin`
 
-* Requires **Google Calendar** and **Gmail** APIs _(sorry, no Outlook, iCloud; but parsing an ICS feed isn't hard to do!)_
-* Supports **multiple calendars** for calculating availability.
-* Only has **basic availability configuration** built in, e.g. you can specify working hours based on day of week only. 
-* Currently optimized for meetings via **phone** or **Google Meet** _(vs. in-person or using resources)._
+## Fonctionnalités
 
-The workflow is simple enough, and we'll walk through it later, but basically:
+- Nécessite les API de Google Calendar et de Gmail (désolé, pas d'Outlook ni d'iCloud ; mais parser un flux ICS n'est pas difficile !)
+- Prend en charge plusieurs calendriers pour calculer les disponibilités.
+- Intègre seulement une configuration de disponibilité de base : vous pouvez spécifier les heures de travail en fonction du jour de la semaine.
+- Actuellement optimisée pour des réunions par téléphone ou Google Meet (vs. en présentiel ou avec des ressources).
 
-1. A user requests an appointment.
-2. The system emails you asking you to confirm or deny.
-3. Once confirmed, it's emailed to the user and added to both of your calendars. 
+## Workflow
 
-As I mentioned, it's opinionated and designed for simple use cases for individuals in mind. 😁
+1. Un utilisateur demande un rendez-vous.
+2. Le système vous envoie un email pour vous demander de confirmer ou de refuser.
+3. Une fois confirmé, le rendez-vous est envoyé par email à l'utilisateur et ajouté à vos deux calendriers.
 
-Some technical notes:
-* Uses Next.js 13 and Typescript with Tailwind.
-* Has (some) testing on the more trickier functions.
-* Uses minimal libraries. For instance, I built my own lightweight wrapper to hit Google APIs directly to avoid importing `googleapis`. 
-* Probably has some over-engineered bits that feel nice, like `lru-cache` limiting on API endpoints, a more intuitive timezone selection piece, and formatted emails. 
+Comme mentionné, cette solution est conçue pour des cas d'utilisation simples, pensées pour les individus.
 
-I welcome feedback and suggestions; and have fun!
+## Notes Techniques
 
-See related post at https://dev.to/timfee/build-and-host-your-own-calendy-like-scheduling-page-using-nextjs-and-google-apis-5ack
+- Utilise Next.js 13 et TypeScript avec Tailwind.
+- Inclut (un peu de) tests pour les fonctions plus complexes.
+- Utilise des bibliothèques minimales. Par exemple, un wrapper léger a été créé pour appeler directement les API Google, afin d'éviter d'importer `googleapis`.
+- Comprend des fonctionnalités agréables telles qu'une limitation de cache LRU pour les points de terminaison API, une sélection de fuseaux horaires plus intuitive, et des emails bien formatés.
+
+Je suis ouvert aux retours et suggestions ; amusez-vous bien !
+
+Voir l'article connexe sur [Dev.to](https://dev.to/timfee/build-and-host-your-own-calendy-like-scheduling-page-using-nextjs-and-google-apis-5ack)
+
+## Setup
+
+1. Renommer le fichier `.env.local.txt` en `.env.local` et ajouter les variables d'environnement à ce fichier.
+2. Créer un nouveau projet Firebase et configurer Firestore Database ainsi que l'authentification :
+   - Accédez à https://console.firebase.google.com/u/3/
+   - Documentation : https://firebase.google.com/docs
