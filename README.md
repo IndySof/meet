@@ -5,7 +5,7 @@ Bonjour tout le monde ! 👋
 
 Voici une solution de planification personnelle (comme Calendly, Cal.com), mais qui soit simple, gratuite, sans branding et sans fonctionnalités superflues.
 
-![img.png](img.png)
+![https://github.com/IndySof/meet/blob/detached/img.png](img.png)
 
 Vous avez également accès à une page d'administration `your-domain/admin`
 
